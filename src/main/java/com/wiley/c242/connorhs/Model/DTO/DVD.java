@@ -14,13 +14,18 @@ public class DVD
 
     }
 
-    public DVD(String title, int releaseDate, String mpaaRating, String director, String studio, String userNote) {
+    public DVD(String title, String release, String mpaaRating, String director, String studio, String userNote) {
         this.title = title;
-        this.releaseDate = releaseDate;
+        setStringReleaseDate(release);
         this.mpaaRating = mpaaRating;
         this.director = director;
         this.studio = studio;
         this.userNote = userNote;
+    }
+
+    public String ToString()
+    {
+        return title + ", " + getStringReleaseDate() + ", " + mpaaRating + ", " + director + ", " + studio + ", " + userNote;
     }
 
     public String getTitle() { return title; }
@@ -28,6 +33,18 @@ public class DVD
 
     public int getReleaseDate() { return releaseDate; }
     public void setReleaseDate(int releaseDate) { this.releaseDate = releaseDate; }
+    public String getStringReleaseDate()
+    {
+        int day = this.releaseDate % 100;
+        int month = (this.releaseDate/ 100) % 100;
+        int year = this.releaseDate / 10000;
+        return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+    }
+    public void setStringReleaseDate(String releaseDate)
+    {
+        String[] ymd = releaseDate.split("-");
+        this.releaseDate = Integer.parseInt(ymd[0] + ymd[1] + ymd[2]);
+    }
 
     public String getMpaaRating() { return mpaaRating; }
     public void setMpaaRating(String mpaaRating) { this.mpaaRating = mpaaRating; }
