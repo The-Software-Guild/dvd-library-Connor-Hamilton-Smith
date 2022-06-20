@@ -15,7 +15,7 @@ public class DvdLibView
 
     public String GetCommand()
     {
-        io.PrintMessage("Please enter a command or type HELP for a list of commands : ");
+        io.PrintMessage("\nPlease enter a command or type HELP for a list of commands : ");
         return io.GetMessage();
     }
 
@@ -53,6 +53,17 @@ public class DvdLibView
         io.PrintMessage("Any additional notes? : ");
         args[5] = io.GetMessage();
         return args;
+    }
+
+    public String GetKeyArguments()
+    {
+        io.PrintMessage("Please enter the following details about this movie...");
+        io.PrintMessage("Title : ");
+        String key = io.GetMessage();
+        io.PrintMessage("Director : ");
+        key += io.GetMessage();
+
+        return key;
     }
 
     public void ListDvds(List<DVD> dvds)

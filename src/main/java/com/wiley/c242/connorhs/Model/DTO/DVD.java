@@ -14,7 +14,8 @@ public class DVD
 
     }
 
-    public DVD(String title, String release, String mpaaRating, String director, String studio, String userNote) {
+    public DVD(String title, String release, String mpaaRating, String director, String studio, String userNote) throws DateFormatException
+    {
         this.title = title;
         setStringReleaseDate(release);
         this.mpaaRating = mpaaRating;
@@ -40,9 +41,14 @@ public class DVD
         int year = this.releaseDate / 10000;
         return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
     }
-    public void setStringReleaseDate(String releaseDate)
+    public void setStringReleaseDate(String releaseDate) throws DateFormatException
     {
         String[] ymd = releaseDate.split("-");
+
+        // Throw an exception if the date format is incorrect
+        if ((ymd.length != 3) || (ymd[0].length() != 4) || (ymd[1].length() != 2) || (ymd[2].length() != 2))
+            throw new DateFormatException();
+
         this.releaseDate = Integer.parseInt(ymd[0] + ymd[1] + ymd[2]);
     }
 

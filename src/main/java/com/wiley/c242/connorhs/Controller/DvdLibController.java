@@ -1,7 +1,9 @@
 package com.wiley.c242.connorhs.Controller;
-import com.wiley.c242.connorhs.Model.DTO.DVD;
-import com.wiley.c242.connorhs.View.DvdLibView;
-import com.wiley.c242.connorhs.Model.DAO.DvdLibDAO;
+import com.wiley.c242.connorhs.View.*;
+import com.wiley.c242.connorhs.Model.DAO.*;
+import com.wiley.c242.connorhs.Model.DTO.*;
+
+import java.text.DateFormat;
 import java.util.List;
 
 public class DvdLibController
@@ -32,14 +34,20 @@ public class DvdLibController
                     view.Log("Exiting program.");
                     return;
                 case "ADD":
-                    String[] args = view.GetDvdArguments();
-                    dao.Add(args);
+                    String[] addArgs = view.GetDvdArguments();
+                    try {dao.Add(addArgs); }
+                    catch (DateFormatException e) { view.Log(e.getMessage()); }
+                    catch (DuplicateEntryException e) { view.Log(e.getMessage()); }
                     break;
                 case "REMOVE":
-                    dao.Remove();
+                    String removeKey = view.GetKeyArguments();
+                    try { dao.Remove(removeKey); }
+                    catch (MissingEntryException e) { view.Log(e.getMessage()); }
                     break;
                 case "EDIT":
-                    dao.Edit();
+//                    String editKey = view.GetKeyArguments();
+//                    try { dao.Edit(editKey); }
+//                    catch (MissingEntryException e) { view.Log(e.getMessage()); }
                     break;
                 case "LIST":
                     List<DVD> dvdList = dao.List();
