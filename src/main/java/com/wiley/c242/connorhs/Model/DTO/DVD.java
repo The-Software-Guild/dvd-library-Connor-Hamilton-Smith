@@ -36,20 +36,11 @@ public class DVD
     public void setReleaseDate(int releaseDate) { this.releaseDate = releaseDate; }
     public String getStringReleaseDate()
     {
-        int day = this.releaseDate % 100;
-        int month = (this.releaseDate/ 100) % 100;
-        int year = this.releaseDate / 10000;
-        return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+        return DVD.formatDateToString(this.releaseDate);
     }
     public void setStringReleaseDate(String releaseDate) throws DateFormatException
     {
-        String[] ymd = releaseDate.split("-");
-
-        // Throw an exception if the date format is incorrect
-        if ((ymd.length != 3) || (ymd[0].length() != 4) || (ymd[1].length() != 2) || (ymd[2].length() != 2))
-            throw new DateFormatException();
-
-        this.releaseDate = Integer.parseInt(ymd[0] + ymd[1] + ymd[2]);
+        this.releaseDate = DVD.formatDateToInt(releaseDate);
     }
 
     public String getMpaaRating() { return mpaaRating; }
@@ -63,4 +54,23 @@ public class DVD
 
     public String getUserNote() { return userNote; }
     public void setUserNote(String userNote) { this.userNote = userNote; }
+
+    public static int formatDateToInt(String date) throws DateFormatException
+    {
+        String[] ymd = date.split("-");
+
+        // Throw an exception if the date format is incorrect
+        if ((ymd.length != 3) || (ymd[0].length() != 4) || (ymd[1].length() != 2) || (ymd[2].length() != 2))
+            throw new DateFormatException();
+
+        return Integer.parseInt(ymd[0] + ymd[1] + ymd[2]);
+    }
+
+    public static String formatDateToString(int date)
+    {
+        int day = date % 100;
+        int month = (date/ 100) % 100;
+        int year = date / 10000;
+        return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+    }
 }

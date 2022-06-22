@@ -34,8 +34,8 @@ public class DvdLibController
                     view.Log("Exiting program.");
                     return;
                 case "ADD":
-                    String[] addArgs = view.GetDvdArguments();
-                    try {dao.Add(addArgs); }
+                    String[] dvdDetails = view.GetDvdArguments();
+                    try {dao.Add(dvdDetails); }
                     catch (DateFormatException e) { view.Log(e.getMessage()); }
                     catch (DuplicateEntryException e) { view.Log(e.getMessage()); }
                     break;
@@ -45,19 +45,31 @@ public class DvdLibController
                     catch (MissingEntryException e) { view.Log(e.getMessage()); }
                     break;
                 case "EDIT":
-//                    String editKey = view.GetKeyArguments();
-//                    try { dao.Edit(editKey); }
-//                    catch (MissingEntryException e) { view.Log(e.getMessage()); }
+                    String[] newDvdDetails = view.EditDvdArguments();
+                    try { dao.Edit(newDvdDetails); }
+                    catch (DateFormatException e) { view.Log(e.getMessage()); }
+                    catch (DuplicateEntryException e) { view.Log(e.getMessage()); }
+                    catch (MissingEntryException e) { view.Log(e.getMessage()); }
                     break;
                 case "LIST":
                     List<DVD> dvdList = dao.List();
                     view.ListDvds(dvdList);
                     break;
                 case "DISPLAY":
-                    dao.Display();
+                    String displayKey = view.GetKeyArguments();
+                    DVD dvd = null;
+                    try { dvd = dao.Display(displayKey); }
+                    catch (MissingEntryException e) { view.Log(e.getMessage()); }
+                    finally { view.Log(dvd.ToString()); }
                     break;
                 case "SEARCH":
-                    dao.Search();
+                    String[] searchPattern = view.GetSearchPattern();
+                    if (searchPattern.equals("CANCEL"))
+                        break;
+                    List<DVD> dvdsFound = null;
+                    try { dvdsFound = dao.Search(searchPattern); }
+                    catch (DateFormatException e) { view.Log(e.getMessage()); }
+                    finally { view.ListDvds(dvdsFound); }
                     break;
                 default:
                     view.Log("Command not recognised.");
