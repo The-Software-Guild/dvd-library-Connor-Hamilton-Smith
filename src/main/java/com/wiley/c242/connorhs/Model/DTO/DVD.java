@@ -59,6 +59,10 @@ public class DVD
     {
         String[] ymd = date.split("-");
 
+        if (ymd[1].length() == 1)
+            ymd[1] = "0" + ymd[1];
+        if (ymd[2].length() == 1)
+            ymd[2] = "0" + ymd[2];
         // Throw an exception if the date format is incorrect
         if ((ymd.length != 3) || (ymd[0].length() != 4) || (ymd[1].length() != 2) || (ymd[2].length() != 2))
             throw new DateFormatException();

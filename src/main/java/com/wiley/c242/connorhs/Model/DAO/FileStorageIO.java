@@ -36,12 +36,12 @@ public class FileStorageIO implements StorageIO
                 if (dvdDetails.length == 6)
                 {
                     try { dvd = new DVD(dvdDetails[0], dvdDetails[1], dvdDetails[2], dvdDetails[3], dvdDetails[4], dvdDetails[5]); }
-                    catch (Exception e) { dvd = null; }
+                    catch (Exception e) { dvd = null; System.out.println(dvdString); }
                 }
                 else
                 {
                     try { dvd = new DVD(dvdDetails[0], dvdDetails[1], dvdDetails[2], dvdDetails[3], dvdDetails[4], ""); }
-                    catch (Exception e) { dvd = null; }
+                    catch (Exception e) { dvd = null; System.out.println(dvdString); }
                 }
             }
             if (dvd != null)

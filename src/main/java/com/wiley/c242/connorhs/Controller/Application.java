@@ -16,6 +16,7 @@ public class Application
         try { dao = new DvdLibDAO(new FileStorageIO(storageFilePath)); }
         catch (Exception e) { view.Log(e.getMessage()); }
 
+        // Create the controller object with dependency injection
         DvdLibController controller = new DvdLibController(dao, view);
 
         controller.Run();
