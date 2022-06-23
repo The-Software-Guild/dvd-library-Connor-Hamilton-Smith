@@ -24,6 +24,7 @@ public class DvdLibView
         return io.GetMessage();
     }
 
+    // Get all details about the DVD
     public String[] GetDvdArguments()
     {
         String[] args = new String[6];
@@ -43,6 +44,7 @@ public class DvdLibView
         return args;
     }
 
+    // Get only the key details about the DVD
     public String GetKeyArguments()
     {
         io.PrintMessage("Please enter the following details about this movie...");
@@ -54,6 +56,7 @@ public class DvdLibView
         return key;
     }
 
+    // Instruct the user through the edit process. Return a string array of all collected data
     public String[] EditDvdArguments()
     {
         String[] args = new String[7];
@@ -79,6 +82,7 @@ public class DvdLibView
         return args;
     }
 
+    // Instruct the user through the search process. Return a string array containing the desired search field and parameter
     public String[] GetSearchPattern()
     {
         io.PrintMessage("Please enter the desired search pattern or type HELP for a list of search patterns...");
@@ -133,6 +137,7 @@ public class DvdLibView
         io.PrintMessage(message);
     }
 
+    // Print help information to the output
     public void PrintHelp()
     {
         io.PrintMessage("Available commands include:");
@@ -145,6 +150,7 @@ public class DvdLibView
         io.PrintMessage("SEARCH : searches for a DVD by name\n");
     }
 
+    // Print help information to the output about the search command
     public void PrintSearchHelp()
     {
         io.PrintMessage("Available search patterns include:");
@@ -159,6 +165,7 @@ public class DvdLibView
         io.PrintMessage("NOTE : returns all DVDs that have a user note\n");
     }
 
+    // Print information about all DVDs in the input list
     public void ListDvds(List<DVD> dvds)
     {
         for (DVD dvd : dvds)

@@ -29,6 +29,9 @@ public class DVD
         return title + ", " + getStringReleaseDate() + ", " + mpaaRating + ", " + director + ", " + studio + ", " + userNote;
     }
 
+    /*
+        Getters and setters
+     */
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
@@ -55,6 +58,9 @@ public class DVD
     public String getUserNote() { return userNote; }
     public void setUserNote(String userNote) { this.userNote = userNote; }
 
+    /*
+        Static functions to convert between string ("YYYY-MM-DD") format for storage, and int (YYYYMMDD) format for comparisons
+     */
     public static int formatDateToInt(String date) throws DateFormatException
     {
         String[] ymd = date.split("-");

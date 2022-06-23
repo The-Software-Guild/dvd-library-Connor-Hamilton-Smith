@@ -14,7 +14,10 @@ public class DvdLibDAO
         this.io = io;
     }
 
-    // args: title, releaseDate, mpaaRating, director, studio, userNote
+    /*
+        Data Commands
+     */
+    // Add: args(dvdDetails = { title, releaseDate, mpaaRating, director, studio, userNote })
     public void Add(String[] dvdDetails) throws DateFormatException, DuplicateEntryException
     {
         // Generating a key from the title and director fields removes the need for a meaningless ID field
@@ -24,21 +27,25 @@ public class DvdLibDAO
         // Throw an error if the key already exists
         if (dvds.containsKey(key))
             throw new DuplicateEntryException();
+        // If the key does not exist, add it to the map
         else
             dvds.put(key, dvd);
     }
 
+    // Remove: args(key = "Title Director")
     public void Remove(String key) throws MissingEntryException
     {
+        // If the key exists, remove it from the map. Otherwise, throw an error
         if (dvds.containsKey(key))
             dvds.remove(key);
         else
             throw new MissingEntryException();
     }
 
+    // Edit: args(dvdDetails = { title, releaseDate, mpaaRating, director, studio, userNote })
     public void Edit(String[] dvdDetails) throws DuplicateEntryException, MissingEntryException, DateFormatException
     {
-        // Replace the SKIP keyword with the existing entry
+        // If the SKIP keyword was used, replace it with the existing entry
         String[] oldDetails = new String[6];
         try { oldDetails = dvds.get(dvdDetails[6]).ToString().split(", "); }
         catch (Exception e) { throw new MissingEntryException(); }
@@ -80,27 +87,33 @@ public class DvdLibDAO
             throw new MissingEntryException();
     }
 
+    // List: return(list of DVDs)
     public List<DVD> List()
     {
+        // Get all DVDs from the map
         List<DVD> dvdList = new ArrayList<>(dvds.values());
 
         return dvdList;
     }
 
+    // Display: args(key = "Title Director"), return(matching DVD)
     public DVD Display(String key) throws MissingEntryException
     {
-        //
+        // If the key exists in the map, return the corresponding DVD. Otherwise, throw an error
         if (dvds.containsKey(key))
             return dvds.get(key);
         else
             throw new MissingEntryException();
     }
 
+    // Search: args(searchPattern = {"search field", "search pattern"} e.g. {"TITLE", "Avatar"}), return(a list of all DVDs that match the pattern)
     public List<DVD> Search(String[] searchPattern) throws DateFormatException
     {
         List<DVD> dvdsFound = new ArrayList<>();
+        // Search depending on pattern
         switch (searchPattern[0])
         {
+            // For title, rating, director studio: add the DVD to the list if it 's corresponding property matches the search parameter
             case "TITLE":
                 for (DVD dvd : dvds.values())
                 {
@@ -129,6 +142,7 @@ public class DvdLibDAO
                         dvdsFound.add(dvd);
                 }
                 break;
+            // For the date patterns, the search parameter must be converted to an int using the static function in DVD before comparison
             case "DATE":
                 for (DVD dvd : dvds.values())
                 {
@@ -137,6 +151,7 @@ public class DvdLibDAO
                         dvdsFound.add(dvd);
                 }
                 break;
+            // Check for dates greater than the search parameter
             case "DATE-GT":
                 for (DVD dvd : dvds.values())
                 {
@@ -145,6 +160,7 @@ public class DvdLibDAO
                         dvdsFound.add(dvd);
                 }
                 break;
+            // Check for dates less than the search parameter
             case "DATE-LT":
                 for (DVD dvd : dvds.values())
                 {
@@ -153,6 +169,7 @@ public class DvdLibDAO
                         dvdsFound.add(dvd);
                 }
                 break;
+            // List all DVDs which have a non-empty user note
             case "NOTE":
                 for (DVD dvd : dvds.values())
                 {
@@ -164,11 +181,17 @@ public class DvdLibDAO
          return dvdsFound;
     }
 
+
+    /*
+        Data I/O
+     */
+    // Use the io interface to load data from storage
     public void LoadDVDs() throws FileIOException
     {
         this.dvds = io.LoadData();
     }
 
+    // Use the io interface to save data to storage
     public void SaveDVDs() throws FileIOException
     {
         io.SaveData(this.dvds);
