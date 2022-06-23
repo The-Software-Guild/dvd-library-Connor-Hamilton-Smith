@@ -15,6 +15,8 @@ public class DvdLibController
     {
         this.dao = dao;
         this.view = view;
+        try { dao.LoadDVDs(); }
+        catch (FileIOException e) { view.Log(e.getMessage()); }
     }
 
     public void Run()
@@ -31,6 +33,9 @@ public class DvdLibController
                     view.PrintHelp();
                     break;
                 case "EXIT":
+                    view.Log("Saving data...");
+                    try { dao.SaveDVDs(); }
+                    catch (FileIOException e) { view.Log(e.getMessage()); }
                     view.Log("Exiting program.");
                     return;
                 case "ADD":

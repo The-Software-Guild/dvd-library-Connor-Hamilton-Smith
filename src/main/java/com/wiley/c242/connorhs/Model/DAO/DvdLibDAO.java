@@ -39,12 +39,14 @@ public class DvdLibDAO
     public void Edit(String[] dvdDetails) throws DuplicateEntryException, MissingEntryException, DateFormatException
     {
         // Replace the SKIP keyword with the existing entry
-        String[] oldDetails = dvds.get(dvdDetails[6]).ToString().split(", ");
+        String[] oldDetails = new String[6];
+        try { oldDetails = dvds.get(dvdDetails[6]).ToString().split(", "); }
+        catch (Exception e) { throw new MissingEntryException(); }
+
         for (int i = 0; i < oldDetails.length; i++)
         {
             if (dvdDetails[i].toUpperCase().equals("SKIP"))
                 dvdDetails[i] = oldDetails[i];
-            System.out.println(dvdDetails[i] + ", " + oldDetails[i]);
         }
 
         // Check that the key exists in the map
@@ -62,7 +64,6 @@ public class DvdLibDAO
             // If the key has changed, remove the old entry, then add a new one
             else
             {
-                System.out.println("Key changed from " + dvdDetails[6] + " to " + newKey);
                 // Check that the new key is not already in use
                 if (dvds.containsKey(newKey))
                     throw new DuplicateEntryException();
@@ -155,11 +156,21 @@ public class DvdLibDAO
             case "NOTE":
                 for (DVD dvd : dvds.values())
                 {
-                    if (!dvd.getUserNote().equals(""))
+                    if (!(dvd.getUserNote().equals(" ") || dvd.getUserNote().equals("")))
                         dvdsFound.add(dvd);
                 }
                 break;
         }
          return dvdsFound;
+    }
+
+    public void LoadDVDs() throws FileIOException
+    {
+        this.dvds = io.LoadData();
+    }
+
+    public void SaveDVDs() throws FileIOException
+    {
+        io.SaveData(this.dvds);
     }
 }

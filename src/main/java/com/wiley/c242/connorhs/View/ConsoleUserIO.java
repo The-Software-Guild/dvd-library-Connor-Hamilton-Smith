@@ -15,6 +15,9 @@ public class ConsoleUserIO implements UserIO
     @Override
     public String GetMessage()
     {
-        return input.nextLine();
+        String message = input.nextLine();
+        if (message == null)
+            message = "";
+        return message;
     }
 }

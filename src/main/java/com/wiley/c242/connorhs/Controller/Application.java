@@ -9,8 +9,12 @@ public class Application
 {
     public static void main (String[] args)
     {
-        DvdLibDAO dao = new DvdLibDAO(new FileStorageIO());
         DvdLibView view = new DvdLibView(new ConsoleUserIO());
+
+        String storageFilePath = "src/main/java/com/wiley/c242/connorhs/Model/DVDs.txt";
+        DvdLibDAO dao = null;
+        try { dao = new DvdLibDAO(new FileStorageIO(storageFilePath)); }
+        catch (Exception e) { view.Log(e.getMessage()); }
 
         DvdLibController controller = new DvdLibController(dao, view);
 
